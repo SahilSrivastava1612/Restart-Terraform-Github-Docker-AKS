@@ -14,6 +14,5 @@ variable "web_apps" {
     app_name          = string
     location          = string
     resource_group_name = string
-    linux_fx_version  = string
   }))
 }

@@ -49,7 +49,7 @@ pip = {
         }
 }
 
-nic = {
+nics = {
   "vm1" = {
     nic_name            = "nic-uat-vm-0001"
     location            = "South Africa North"
@@ -103,7 +103,6 @@ web_app = {
         app_name            = "webapp-uat-0001"
         location            = "South Africa North"
         resource_group_name = "rg1-uat-0001"
-        linux_fx_version    = "NODE|18-lts"
     }
     
 }

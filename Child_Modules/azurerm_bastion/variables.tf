@@ -23,11 +23,6 @@ variable "vnet_name" {
   type        = string
 }
 
-variable "resource_group_name" {
-  description = "The name of the resource group."
-  type        = string
-}
-
 variable "public_ip_name" {
   description = "The name of the public IP address for the Bastion Host."
   type        = string

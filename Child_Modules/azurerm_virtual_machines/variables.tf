@@ -11,10 +11,15 @@ variable "resource_group_name" {
 }
 
 variable "nic" {
-  
+  description = "Map of Network Interfaces"
+  type = map(object({
+    nic_name            = string
+    location            = string
+    resource_group_name = string
+    subnet_name          = string
+    virtual_network_name = string
+  }))
 }
-
-variable "virtual_machines" {}
 
 variable "subnet_name" {
   description = "The name of the subnet."

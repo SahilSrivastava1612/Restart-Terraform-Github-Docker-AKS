@@ -42,18 +42,18 @@ resource "azurerm_application_gateway" "app_gw_block" {
   }
 
   http_listener {
-    name                           = var.listener_name
-    frontend_ip_configuration_name = azurerm_application_gateway.app_gw_block.frontend_ip_configuration[0].name
-    frontend_port_name             = var.frontend_port_name
-    protocol                       = "Http"
-  }
+  name                           = var.listener_name
+  frontend_ip_configuration_name = var.frontend_ip_configuration_name
+  frontend_port_name             = var.frontend_port_name
+  protocol                       = "Http"
+}
 
   request_routing_rule {
-    name                       = var.request_routing_rule_name
-    priority                   = 101
-    rule_type                  = "Basic"
-    http_listener_name         = azurerm_application_gateway.app_gw_block.http_listener[0].name
-    backend_address_pool_name  = azurerm_application_gateway.app_gw_block.backend_address_pool[0].name
-    backend_http_settings_name = azurerm_application_gateway.app_gw_block.backend_http_settings[0].name
-  }
+  name                       = var.request_routing_rule_name
+  priority                   = 101
+  rule_type                  = "Basic"
+  http_listener_name         = var.listener_name
+  backend_address_pool_name  = var.backend_address_pool_name
+  backend_http_settings_name = var.http_setting_name
+}
 }

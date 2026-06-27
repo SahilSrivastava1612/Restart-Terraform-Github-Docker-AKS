@@ -76,8 +76,7 @@ module "bastion" {
 module "virtual_machines" {
     source = "../Child_Modules/azurerm_virtual_machines"
     depends_on = [ module.resource_group, module.virtual_network, module.nsg, module.subnet_nsg_association, module.key_vault ]
-    virtual_machine = var.vm
-    virtual_machines = var.virtual_machine
+    virtual_machine = var.virtual_machine
     key_vault_name = "kv-uat-0001"
     key_vault_rg   = "rg2-uat-0002"
     subnet_name = "subnet-uat-0001"

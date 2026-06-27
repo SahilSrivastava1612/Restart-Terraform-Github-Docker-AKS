@@ -17,7 +17,9 @@ resource "azurerm_linux_web_app" "web_apps" {
   service_plan_id     = azurerm_service_plan.appservice_plan.id   # <-- Link to service plan
 
   site_config {
-    linux_fx_version = each.value.linux_fx_version
+    application_stack {
+    node_version = "18-lts"
+  }
   }
 
   identity {
