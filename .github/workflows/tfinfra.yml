@@ -23,7 +23,6 @@ jobs:
 
     defaults:
       run:
-        shell: pwsh
         working-directory: ${{ env.WORKING_DIR }}
 
     steps:
