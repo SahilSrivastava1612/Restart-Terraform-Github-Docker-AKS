@@ -3,26 +3,27 @@ name: Terraform Infrastructure Deployment
 on:
   workflow_dispatch:
 
-env:
-  WORKING_DIR: ./Environments
-
 permissions:
   id-token: write
   contents: read
 
+env:
+  WORKING_DIR: ./Environments
+  TF_IN_AUTOMATION: true
+
 jobs:
   terraform-plan:
-    name: Terraform Init, Validate & Plan
+    name: Terraform Plan
 
-    # Self-hosted Runner
     runs-on:
       - self-hosted
-      # Agar custom labels hain to unhe bhi add karo
-      # - linux
-      # - x64
+      # Agar custom labels hain to yaha add karo
+      # - Windows
+      # - X64
 
     defaults:
       run:
+        shell: pwsh
         working-directory: ${{ env.WORKING_DIR }}
 
     steps:
@@ -32,7 +33,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: latest
+          terraform_version: 1.13.0
 
       - name: Azure Login
         uses: azure/login@v2
@@ -40,6 +41,9 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Terraform Version
+        run: terraform version
 
       - name: Terraform Init
         run: terraform init
@@ -49,13 +53,17 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          terraform plan \
-            -var-file="UAT.terraform.tfvars" \
-            -input=false \
+          terraform plan `
+            -var-file="UAT.terraform.tfvars" `
+            -input=false `
             -out=tfplan
 
-      - name: Upload Plan
+      - name: Upload Terraform Plan
         uses: actions/upload-artifact@v4
         with:
           name: terraform-plan
           path: ${{ env.WORKING_DIR }}/tfplan
+
+      - name: Terraform Plan Summary
+        if: success()
+        run: terraform show -no-color tfplan
